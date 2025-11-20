@@ -42,7 +42,7 @@ if "user" not in st.session_state:
     st.session_state["user"] = None
 
 # ==========================
-# CSS โทนเดิม (พื้นหลัง gradient + ฟอร์มกึ่งกลาง)
+# CSS: พื้นหลังเดิม + กล่อง login กึ่งกลางจอ
 # ==========================
 st.markdown(
     """
@@ -53,18 +53,32 @@ st.markdown(
         background: radial-gradient(circle at top, #7ab8ff 0, #6c8fff 40%, #4b3fb3 80%, #2c1d7a 100%);
         font-family: "Sarabun", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .full-page-wrapper {
+
+    /* ครอบทั้งหน้าให้จัดกลางจอ */
+    .page-wrapper {
         min-height: 100vh;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 64px 96px 48px 96px;
+        justify-content: center;   /* แนวนอน */
+        align-items: center;       /* แนวตั้ง */
+        padding: 24px;
     }
+
+    /* แผง login ด้านใน */
+    .login-panel {
+        width: 100%;
+        max-width: 1100px;
+        background: rgba(30, 64, 175, 0.25);
+        border-radius: 18px;
+        padding: 32px 40px 28px 40px;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.20);
+    }
+
     @media (max-width: 900px) {
-        .full-page-wrapper {
-            padding: 40px 24px;
+        .login-panel {
+            padding: 24px 20px 20px 20px;
         }
     }
+
     .mem-title {
         text-align: center;
         font-size: 32px;
@@ -83,13 +97,13 @@ st.markdown(
         font-size: 13px;
         color: #9ca3af;
         margin-top: 2px;
-        margin-bottom: 32px;
+        margin-bottom: 24px;
     }
     .login-footer {
-        margin-top: 32px;
+        margin-top: 24px;
         text-align: center;
         font-size: 12px;
-        color: #9ca3af;
+        color: #e5e7eb;
     }
     </style>
     """,
@@ -97,9 +111,10 @@ st.markdown(
 )
 
 # ==========================
-# Layout หน้า Login แบบโทนเดิม
+# Layout หน้า Login
 # ==========================
-st.markdown('<div class="full-page-wrapper">', unsafe_allow_html=True)
+st.markdown('<div class="page-wrapper">', unsafe_allow_html=True)
+st.markdown('<div class="login-panel">', unsafe_allow_html=True)
 
 # หัวข้อ
 st.markdown('<div class="mem-title">MEM System</div>', unsafe_allow_html=True)
@@ -116,7 +131,7 @@ st.markdown(
 with st.form("login_form", clear_on_submit=False):
     username = st.text_input("ชื่อผู้ใช้", placeholder="เช่น ton")
     password = st.text_input("รหัสผ่าน", placeholder="กรอกรหัสผ่าน", type="password")
-    submitted = st.form_submit_button("เข้าสู่ระบบ")  # กด Enter ที่ช่องกรอก -> ปุ่มนี้จะทำงาน
+    submitted = st.form_submit_button("เข้าสู่ระบบ")  # กด Enter -> submit ได้
 
 # ตรวจสอบ Login
 if submitted:
@@ -135,4 +150,5 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown("</div>", unsafe_allow_html=True)  # ปิด full-page-wrapper
+st.markdown('</div>', unsafe_allow_html=True)   # ปิด login-panel
+st.markdown('</div>', unsafe_allow_html=True)   # ปิด page-wrapper
